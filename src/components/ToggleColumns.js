@@ -1,27 +1,34 @@
 import React from 'react'
 
 export const ToggleColumns = (props) => {
-  const onCheckboxClick = (e) => {
-    // TODO: implement checkbox click handler
-  }
 
-  // TODO: Bind handlers and props
-  return (
-    <div className="toggle-columns">
-      { 
-        Object.keys(props.columns).map((column, index) => {
-          return ( 
-          <div key={index}>
-            <label htmlFor={column}>
-              {column}
-            </label>
-            <input
-              id={column}
-              name={column}
-              type="checkbox" />
-          </div>)
+    const { columns, onCheckboxClick: checkBox } = props
+
+    const onCheckboxClick = (e, column) => {
+        checkBox({
+            ...columns,
+            [column]: e.target.checked
         })
-      }
-    </div>
-  );
+    }
+
+    return (
+        <div className='toggle-columns'>
+            {
+                Object.keys(columns).map((column, index) => {
+                    return (
+                        <div key={ index }>
+                            <label htmlFor={ column }>
+                                { column }
+                            </label>
+                            <input
+                                id={ column }
+                                name={ column }
+                                checked={columns[column]}
+                                onChange={ (e) => onCheckboxClick(e, column) }
+                                type='checkbox' />
+                        </div>)
+                })
+            }
+        </div>
+    )
 }

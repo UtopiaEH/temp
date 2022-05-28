@@ -1,50 +1,64 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import '../styles/Search.css';
-import { ToggleColumns } from './ToggleColumns';
-import { ProductList } from './ProductList';
-import { FilterForm } from './FilterForm';
+import '../styles/Search.css'
+import { ToggleColumns } from './ToggleColumns'
+import { ProductList } from './ProductList'
+import { FilterForm } from './FilterForm'
 
 export const Search = (props) => {
-  const [price, setPrice] = useState({ priceFrom: '', priceTo: '' });
+    const initial_products = props.products
 
-  const [columns, setColumns] = useState({
-    id: true,
-    name: true,
-    department: true,
-    price: true,
-    currency: true,
-  });
+    const [ products, setProducts ] = useState(initial_products)
 
-  const onPriceInputChange = (name, value) => {
-    // TODO: implement price change handler
-  }
+    const [ price, setPrice ] = useState({ priceFrom: '', priceTo: '' })
 
-  const onCheckboxClick = (name, checked) => {
-    // TODO: implement checkbox click handler
-  }
+    const [ columns, setColumns ] = useState({
+        id: true,
+        name: true,
+        department: true,
+        price: true,
+        currency: true
+    })
 
-  const filterProducts = () => {
-    // TODO: implement handler for filtering products by price range
-  }
 
-  let displayedProducts = [];
-  return (
-    <div className="Products">
-      <FilterForm
-        priceFrom={''}
-        priceTo={''}
-        onPriceInputChange={''} />
+    const filterProducts = () => {
 
-      <ToggleColumns
-        onCheckboxClick={''}
-        columns={''} />
+        if (price.priceFrom !== '' && price.priceTo !== '') {
+            const filtered_products = initial_products.filter((product) => {
+                if (parseFloat(product.price) >= parseFloat(price.priceFrom) && parseFloat(product.price) <= parseFloat(price.priceTo)) {
+                    return true
+                }
 
-      <ProductList
-        products={displayedProducts}
-        columns={''} />
-    </div>
-  );
+                return false
+            })
+            setProducts(filtered_products)
+        } else {
+            setProducts(initial_products)
+        }
+
+    }
+
+    useEffect(() => {
+        filterProducts()
+    }, [ price.priceFrom, price.priceTo ])
+
+
+    return (
+        <div className='Products'>
+            <FilterForm
+                priceFrom={ price.priceFrom }
+                priceTo={ price.priceTo }
+                onPriceInputChange={ setPrice } />
+
+            <ToggleColumns
+                onCheckboxClick={ setColumns }
+                columns={ columns } />
+
+            <ProductList
+                products={ products }
+                columns={ columns } />
+        </div>
+    )
 }
 
-export default Search;
+export default Search
