@@ -21,6 +21,23 @@ export const Search = (props) => {
     })
 
 
+
+    const onPriceInputChange = (name, value) => {
+        setPrice({
+            ...price,
+            [name]: value
+        })
+    }
+
+    const onCheckboxClick = (name, checked) => {
+        setColumns({
+            ...columns,
+            [name]: checked
+        })
+    }
+
+
+
     const filterProducts = () => {
 
         if (price.priceFrom !== '' && price.priceTo !== '') {
@@ -48,10 +65,10 @@ export const Search = (props) => {
             <FilterForm
                 priceFrom={ price.priceFrom }
                 priceTo={ price.priceTo }
-                onPriceInputChange={ setPrice } />
+                onPriceInputChange={ onPriceInputChange } />
 
             <ToggleColumns
-                onCheckboxClick={ setColumns }
+                onCheckboxClick={ onCheckboxClick }
                 columns={ columns } />
 
             <ProductList

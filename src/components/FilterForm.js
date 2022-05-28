@@ -5,11 +5,7 @@ export const FilterForm = (props) => {
     const {onPriceInputChange: onChange, priceFrom, priceTo} = props
 
     const onPriceInputChange = (e) => {
-        onChange({
-            priceFrom: priceFrom ?? '',
-            priceTo: priceTo ?? '',
-            [e.target.id]: e.target.value || ''
-        })
+        onChange(e.target.id, +e.target.value )
     }
 
     return (
@@ -19,7 +15,7 @@ export const FilterForm = (props) => {
                 type='number'
                 id='priceFrom'
                 name='priceFrom'
-                value={ props.priceFrom }
+                value={ priceFrom }
                 onChange={ onPriceInputChange}
                 placeholder='Price from...' />
             <label htmlFor='priceTo'>Price To:</label>
@@ -27,7 +23,7 @@ export const FilterForm = (props) => {
                 type='number'
                 id='priceTo'
                 name='priceTo'
-                value={ props.priceTo }
+                value={ priceTo }
                 onChange={ onPriceInputChange }
                 placeholder='Price to...' />
         </div>

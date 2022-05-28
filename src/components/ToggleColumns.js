@@ -2,14 +2,7 @@ import React from 'react'
 
 export const ToggleColumns = (props) => {
 
-    const { columns, onCheckboxClick: checkBox } = props
-
-    const onCheckboxClick = (e, column) => {
-        checkBox({
-            ...columns,
-            [column]: e.target.checked
-        })
-    }
+    const { columns, onCheckboxClick } = props
 
     return (
         <div className='toggle-columns'>
@@ -24,7 +17,7 @@ export const ToggleColumns = (props) => {
                                 id={ column }
                                 name={ column }
                                 checked={columns[column]}
-                                onChange={ (e) => onCheckboxClick(e, column) }
+                                onChange={ (e) => onCheckboxClick(column, e.target.checked) }
                                 type='checkbox' />
                         </div>)
                 })
